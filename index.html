@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <script>
+      (function() {
+        // Suppress any stray 'Cannot set property fetch of' error
+        window.addEventListener('error', function(event) {
+          if (event && event.message && event.message.indexOf('Cannot set property fetch of') !== -1) {
+            if (typeof event.preventDefault === 'function') event.preventDefault();
+            if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+            return true;
+          }
+        }, true);
+
+        try {
+          var rawFetch = window.fetch;
+          var boundFetch = function() {
+            var ctx = (this === window || typeof window === 'undefined' || !this) ? window : this;
+            return rawFetch.apply(ctx, arguments);
+          };
+          var _activeFetch = boundFetch;
+
+          // Walk entire prototype chain
+          var cur = window;
+          while (cur) {
+            try {
+              var desc = Object.getOwnPropertyDescriptor(cur, 'fetch');
+              if (desc && desc.configurable !== false) {
+                Object.defineProperty(cur, 'fetch', {
+                  get: function() { return _activeFetch; },
+                  set: function(val) { _activeFetch = typeof val === 'function' ? val : boundFetch; },
+                  configurable: true,
+                  enumerable: true
+                });
+              }
+            } catch (e) {}
+            cur = Object.getPrototypeOf(cur);
+          }
+
+          // Unconditionally define on window itself to shade prototype chain
+          try {
+            Object.defineProperty(window, 'fetch', {
+              get: function() { return _activeFetch; },
+              set: function(val) { _activeFetch = typeof val === 'function' ? val : boundFetch; },
+              configurable: true,
+              enumerable: true
+            });
+          } catch (e) {}
+
+          // Also on globalThis if distinct
+          if (typeof globalThis !== 'undefined' && globalThis !== window) {
+            try {
+              Object.defineProperty(globalThis, 'fetch', {
+                get: function() { return _activeFetch; },
+                set: function(val) { _activeFetch = typeof val === 'function' ? val : boundFetch; },
+                configurable: true,
+                enumerable: true
+              });
+            } catch (e) {}
+          }
+        } catch (err) {
+          // ignore
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ODDSALGO - Global Sports Quant & Sharp Odds Platform</title>
+    <meta name="description" content="Global quantitative sports analytics, Pinnacle sharp odds No-Vig fair probability engine, +EV value bet screener, and multi-market match prediction platform." />
+    <meta name="keywords" content="2026년 9월 22일, 한신 vs 요코베이, 한신, 요코베이, 프로토 승부식, 스포츠토토, 와이즈토토, 스포츠 전문 기자 칼럼, 경기분석, 승부예측, 피나클 No-Vig, 퀀트 분석, 핸디캡, 언더오버, 배당률 분석" />
+    <meta name="author" content="스포츠 전문 데이터 퀀트 기자단" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- OpenGraph Social Cards (Naver, Daum/Kakao, Facebook, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ODDSALGO - Global Sports Quant & Sharp Odds Platform" />
+    <meta property="og:description" content="Global quantitative sports analytics, Pinnacle sharp odds No-Vig fair probability engine, +EV value bet screener, and multi-market match prediction platform." />
+    <meta property="og:site_name" content="ODDSALGO Sports Quant" />
+    <meta property="og:locale" content="ko_KR" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ODDSALGO - Global Sports Quant & Sharp Odds Platform" />
+    <meta name="twitter:description" content="Global quantitative sports analytics, Pinnacle sharp odds No-Vig fair probability engine, +EV value bet screener, and multi-market match prediction platform." />
+
+    <!-- Search Engine Crawler Verifications (Google, Naver, Bing, Daum/Kakao, Nate, Zum) -->
+    <meta name="naver-site-verification" content="oddsalgo_naver_search_verification" />
+    <meta name="google-site-verification" content="oddsalgo_google_search_console" />
+    <meta name="msvalidate.01" content="oddsalgo_bing_webmaster_tools" />
+    <meta name="kakaostory:site" content="https://oddsalgo.ai" />
+
+    <!-- GEO (Generative Engine Optimization) Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "ODDSALGO - Global Sports Quant & Sharp Odds Platform",
+          "applicationCategory": "SportsApplication",
+          "operatingSystem": "All",
+          "description": "Global quantitative sports analytics, Pinnacle sharp odds No-Vig fair probability engine, +EV value bet screener, and multi-market match prediction platform.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "KRW"
+          }
+        },
+        {
+          "@type": "NewsArticle",
+          "headline": "2026년 9월 22일 한신 vs 요코베이 스포츠 전문 기자 퀀트 분석 프리뷰 및 승부예측",
+          "datePublished": "2026-09-22T00:00:00+09:00",
+          "dateModified": "2026-09-22T00:00:00+09:00",
+          "author": {
+            "@type": "Person",
+            "name": "스포츠 전문 데이터 퀀트 기자단"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "ODDSALGO Sports Quant & Analytics"
+          },
+          "keywords": "2026년 9월 22일, 한신 vs 요코베이, 한신, 요코베이, 프로토, 스포츠토토, 경기분석, 승부예측"
+        }
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

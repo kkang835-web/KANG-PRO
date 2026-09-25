@@ -1,0 +1,8 @@
+{
+  "name": "ODDSALGO - Global Sports Quant & Sharp Odds Platform",
+  "description": "Global quantitative sports analytics, Pinnacle sharp odds No-Vig fair probability engine, +EV value bet screener, and multi-market match prediction platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
